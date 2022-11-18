@@ -41,8 +41,6 @@ def find_atom_connections(ptm):
                     else:
                         connections[y].append(x)
 
-    # for connection in connections:
-    #     print(f"{connection} {connections[connection]}")
     file.close()
     return connections
     
@@ -74,41 +72,47 @@ def figure_out_atom_type(ptm, connections):
                             "['O', ['C']]" : "O",
                             "['OH', ['CZ']]" : "O"}
     atom_connections = []
+    with open(f"{ptm}.txt", "r") as readfile:
+        # Reading the content of the file
+        # using the read() function and storing
+        # them in a new variable
+        data = readfile.read()
+
     for connection in connections:
         atom_connections.append([connection, connections[connection]])
         
     for atom in atom_connections:
         atom_need_atom_type_replacement = atom[0]
         str_atom = str(atom)
-        #print(str_atom)
+
         if str_atom.startswith("['+N'") == False:
             replacement = (atom_type_replacement[str_atom])
-            #print(replacement)
-            data = modify_data(ptm, atom_need_atom_type_replacement, replacement)
+            data = modify_data(ptm, atom_need_atom_type_replacement, replacement, data)
     return data
 
-def modify_data(ptm, atom_need_atom_type_replacement, replacement):
-    with open(f"{ptm}.txt", "r") as readfile:
-
-        # Reading the content of the file
-        # using the read() function and storing
-        # them in a new variable
-        data = readfile.read()
-        for line in data.split("\n"):
+def modify_data(ptm, atom_need_atom_type_replacement, replacement, data):
+    for line in data.split("\n"):
+        if f"ATOM {atom_need_atom_type_replacement} " in line:
+            remove_spaces = False
             atom_type_to_be_replaced = line.split()[2]
-            if f"ATOM {atom_need_atom_type_replacement} " in line:
-                # if len(atom_type_to_be_replaced) > len(replacement):
-                #     difference = len(atom_type_to_be_replaced) - len(replacement)
-                #     final_atom_type = replacement + ' ' * difference
-                # if len(atom_type_to_be_replaced) < len(replacement):
-                #     difference = len(replacement) - len(atom_type_to_be_replaced)
-                #     final_atom_type = replacement + '\b' * difference
-          
-                # Searching and replacing the text using the replace() function
-                # The same index in boths list are synonyms
-                line = line.replace(atom_type_to_be_replaced, replacement)
+            if len(atom_type_to_be_replaced) > len(replacement):
+                difference = len(atom_type_to_be_replaced) - len(replacement)
+                final_atom_type = replacement + ' ' * difference
+            elif len(atom_type_to_be_replaced) < len(replacement):
+                difference = len(replacement) - len(atom_type_to_be_replaced)
+                final_atom_type = replacement
+                remove_spaces = True
+            # Searching and replacing the text using the replace() function
+            # The same index in boths list are synonyms
+            else:
+                final_atom_type = replacement
 
-    readfile.close()
+            if remove_spaces == True:
+                line2 = line.replace(atom_type_to_be_replaced + difference * " ", final_atom_type)
+            else:
+                line2 = line.replace(atom_type_to_be_replaced, final_atom_type)
+            data = data.replace(line, line2)
+
     return data
 
 def write_to_top_heav_lib(data):
@@ -121,11 +125,11 @@ def write_to_top_heav_lib(data):
 
 ptms = ["CIR"]
 for ptm in ptms:
-#    obtain_seperate_rtf(ptm)
+    obtain_seperate_rtf(ptm)
     connections = find_atom_connections(ptm)
     data = figure_out_atom_type(ptm, connections)
     #print(data)
-    #write_to_top_heav_lib(data)
+    write_to_top_heav_lib(data)
 
 
 
