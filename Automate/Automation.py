@@ -1,6 +1,9 @@
+import os
+
 def obtain_seperate_rtf(ptm):
     info = ""
     with open("/home/shahielm/toppar/top_all36_prot.rtf", "r") as file:
+    #with open("/home/shahielm/toppar/stream/prot/toppar_all36_prot_modify_res.str", "r") as file:
         part_of_ptm = False
         for line in file:
             if f"RESI {ptm}" in line:
@@ -68,6 +71,9 @@ def find_atom_connections(ptm):
                 
                 remove_spaces = False
                 atom_type_to_be_replaced = line.split()[2]
+                # print(line)
+                # print(len(atom_type_to_be_replaced))
+                # print(len(replacement))
                 if len(atom_type_to_be_replaced) > len(replacement):
                     difference = len(atom_type_to_be_replaced) - len(replacement)
                     final_atom_type = replacement + ' ' * difference
@@ -77,19 +83,21 @@ def find_atom_connections(ptm):
                     remove_spaces = True
                 else:
                     final_atom_type = replacement
-                
+            
                 if remove_spaces == True:
                     line = line.replace(atom_type_to_be_replaced + difference * " ", final_atom_type)
                 else:
                     line = line.replace(atom_type_to_be_replaced, final_atom_type)
-                print(line.replace("\n", ""))
+                    print(line)
+                
                 
                 with open(f"{ptm}_edited.txt", "r") as file3:
                     data = file3.readlines()
+                index = -1
                 for line3 in data:
+                    index += 1
                     if f"ATOM {atom} " in line3:
-                        line3_split = line3.split()
-                        line3.replace(line3_split[2], replacement)
+                        data[index] = line
                 with open(f"{ptm}_edited.txt", "w") as file4:
                     file4.writelines(data)
                 
@@ -103,7 +111,6 @@ def grouped(iterable, n):
     return zip(*[iter(iterable)]*n)
 
 def figure_out_atom_type(ptm, connections):
-    #check values!
     atom_type_replacement = {
                             "['N', ['CA'], []]" : "NH1",
                             "['CA', ['CB', 'N', 'C'], []]" : "CT1",
@@ -114,20 +121,61 @@ def figure_out_atom_type(ptm, connections):
                             "['CZ', ['NE', 'NH2'], ['NH1']]" : "C",
                             "['NH1', [], ['CZ']]" : "NC2",
                             "['NH2', ['CZ'], []]" : "NC2",
-                            "['C', ['CA', '+N'], ['O']]" : "NC2",
-                            "['O', [], ['C']]" : "NC2"
+                            "['C', ['CA', '+N'], ['O']]" : "C",
+                            "['O', [], ['C']]" : "O",
+                            "['CG', ['CB', 'CD2'], ['CD1']]" : "CA",
+                            "['CD1', ['CE1'], ['CG']]" : "CA",
+                            "['CE1', ['CD1'], ['CZ']]" : "CA",
+                            "['CZ', ['CE2', 'OH'], ['CE1']]" : "CA",
+                            "['OH', ['CZ'], []]" : "OH1",
+                            "['CD2', ['CG'], ['CE2']]" : "CA",
+                            "['CE2', ['CZ'], ['CD2']]" : "CA",
+                            "['CD', ['CG', 'CE'], []]" : "CT2",
+                            "['CE', ['CD', 'NZ'], []]" : "CT2",
+                            "['NZ', ['CE'], []]" : "NH3",
+                            "['CG', ['CB', 'CD1', 'CD2'], []]" : "CT1",
+                            "['CD1', ['CG'], []]" : "CT3",
+                            "['CD2', ['CG'], []]" : "CT3",
+                            "['CD', ['CG', 'OE2'], ['OE1']]" : "CC",
+                            "['OE1', [], ['CD']]" : "OC",
+                            "['OE2', ['CD'], []]" : "OC"
                             }
+    #check values! 
+    # (1 to 11 is ARG)
+    # (12 to 18 is TYR)
+    # (19 to 21 LYS)
+    # (22 to 24 LEU)
+    # (25 to 27 GLU)
     str_connections = str(connections)
     #print(f"{str_connections} -- {atom_type_replacement[str_connections]}")
     replacement = atom_type_replacement[str_connections]
+
     return replacement
                     
+def write_to_top_heav_lib(ptm):
+    # Opening our text file in write only mode to write the replaced content
+    #with open('/home/shahielm/Automate/top_heav,lib', 'a') as appendfile:
+    with open(f"{ptm}_edited.txt", "r") as ptm_file:
+        data = ptm_file.read()
+    ptm_file.close()
+    path = '/home/shahielm/Automate/practice_output_file.txt'
+    if os.path.exists(path):
+        with open('/home/shahielm/Automate/practice_output_file.txt', 'a') as appendfile:
+            # Writing the replaced data in our text file
+            appendfile.write("\n\n")
+            appendfile.write(data)
+            print("Text replaced")
+    else:
+        with open('/home/shahielm/Automate/practice_output_file.txt', 'w') as writefile:
+            # Writing the replaced data in our text file
+            writefile.write("\n\n")
+            writefile.write(data)
+            print("Text replaced")
 
 
-
-ptms = ["ARG"]
+ptms = ["ARG", "TYR", "LYS", "LEU", "GLU"]
+#ptms = ["GLU"]
 for ptm in ptms:
     obtain_seperate_rtf(ptm)
     find_atom_connections(ptm)
-    #print(data)
-    #write_to_top_heav_lib(data)
+    write_to_top_heav_lib(ptm)
