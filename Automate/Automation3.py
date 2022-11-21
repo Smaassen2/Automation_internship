@@ -19,17 +19,18 @@ def obtain_seperate_rtf(ptm):
     return ptm
 
 def find_atom_connections(ptm):
+    all_connections = []
     with open(f"{ptm}.txt", "r") as file:
-        in_data = file.read()
-        file1 = in_data.split("\n")
-        file2 = in_data.split("\n")
-        for line in file1:
+        read_data = file.read()
+        data1 = read_data.split("\n")
+        data2 = read_data.split("\n")
+        for line in data1:
             if "ATOM" in line and "ATOM H" not in line:
                 single_bonds = []
                 double_bonds = []
                 atom = line.split()[1]
                 #print(atom)
-                for line2 in file2:
+                for line2 in data2:
                     if "BOND" in line2:
                         # to remove newline characters causing every odd line to be blank (starting from 0)
                         strip_line2 = line2.strip()
@@ -58,15 +59,21 @@ def find_atom_connections(ptm):
                                         double_bonds.append(x)
 
                 connections = [atom, single_bonds, double_bonds]
-                edited_ptm_file = figure_out_atom_type(ptm, connections, atom)
-    file.close
-    return edited_ptm_file
+                all_connections.append(connections)
+    file.close()
+    #print(all_connections)
+    return all_connections
+
+
+#                 edited_ptm_file = figure_out_atom_type(ptm, connections, atom, edited_ptm_file)
+#     file.close
+#     return edited_ptm_file
 
 def grouped(iterable, n):
     # iterate each two values (two atoms that have a bond)
     return zip(*[iter(iterable)]*n)
 
-def figure_out_atom_type(ptm, connections, atom):
+def figure_out_atom_type(ptm, all_connections):
     #check values!
     atom_type_replacement = {
                             "['N', ['CA'], []]" : "NH1",
@@ -83,50 +90,65 @@ def figure_out_atom_type(ptm, connections, atom):
                             "['CB', ['CA', 'OG'], []]" : "CT2",
                             "['OG', ['CB'], []]" : "OH1"
                             }
-    connections = str(connections)
+    atoms = []
+    for atom_connection in all_connections:
+        atoms.append(atom_connection[0])
+
+    # Turn list into string so it can be searched as a key (key in dictionary can't be a list)
+    str_all_connections = str(all_connections)
     #print(f"{connections} -- {atom_type_replacement[connections]}")
-    replacement = atom_type_replacement[connections]
-
-    with open(f"{ptm}_update.txt", "r") as edited_ptm_file:
-        for line in edited_ptm_file:
-            if f"ATOM {atom} " in line:
-                remove_spaces = False
-                atom_type_to_be_replaced = line.split()[2]
-                if len(atom_type_to_be_replaced) > len(replacement):
-                    difference = len(atom_type_to_be_replaced) - len(replacement)
-                    final_atom_type = replacement + ' ' * difference
-                elif len(atom_type_to_be_replaced) < len(replacement):
-                    difference = len(replacement) - len(atom_type_to_be_replaced)
-                    final_atom_type = replacement
-                    remove_spaces = True
-                # Searching and replacing the text using the replace() function
-                # The same index in boths list are synonyms
-                else:
-                    final_atom_type = replacement
-
-                if remove_spaces == True:
-                    line = line.replace(atom_type_to_be_replaced + difference * " ", final_atom_type)
-                else:
-                    line = line.replace(atom_type_to_be_replaced, final_atom_type)
-    edited_ptm_file.close
-    return edited_ptm_file
-
-
-def append_to_top_heav_lib(edited_ptm_file, ptm):
-    # Opening our text file in write only mode to write the replaced content
-    #with open('/home/shahielm/Automate/top_heav,lib', 'a') as appendfile:
+    data = ""
     with open(f"{ptm}.txt", "r") as ptm_file:
-        in_data = ptm_file.read()
-    ptm_file.close()
-    with open('/home/shahielm/Automate/practice_output_file.txt', 'a') as appendfile:
-        # Writing the replaced data in our text file
-        appendfile.write("\n\n")
-        appendfile.write(in_data)
-        print("Text replaced")    
+        for line in ptm_file:
+            counter = 0
+            for atom in atoms:
+                if f"ATOM {atom} " in line:
+                    replacement = list(atom_type_replacement.keys())[counter]
+                    remove_spaces = False
+                    atom_type_to_be_replaced = line.split()[2]
+                    if len(atom_type_to_be_replaced) > len(replacement):
+                        difference = len(atom_type_to_be_replaced) - len(replacement)
+                        final_atom_type = replacement + ' ' * difference
+                    elif len(atom_type_to_be_replaced) < len(replacement):
+                        difference = len(replacement) - len(atom_type_to_be_replaced)
+                        final_atom_type = replacement
+                        remove_spaces = True
+                    # Searching and replacing the text using the replace() function
+                    # The same index in boths list are synonyms
+                    else:
+                        final_atom_type = replacement
+                    if remove_spaces == True:
+                        line = line.replace(atom_type_to_be_replaced + difference * " ", final_atom_type)
+                    else:
+                        line = line.replace(atom_type_to_be_replaced, final_atom_type)
+                        
+                    data += line
+                else:
+                    counter += 1
+                       
+    print(data)
+    # with open(f"{ptm}_edited.txt", "w") as edited_ptm_file:
+    #     edited_ptm_file.write(data)
+    # edited_ptm_file.close
+    # return edited_ptm_file
+
+
+# def append_to_top_heav_lib(edited_ptm_file, ptm):
+#     # Opening our text file in write only mode to write the replaced content
+#     #with open('/home/shahielm/Automate/top_heav,lib', 'a') as appendfile:
+#     with open(f"{ptm}_edited.txt", "r") as ptm_file:
+#         in_data = ptm_file.read()
+#     ptm_file.close()
+#     with open('/home/shahielm/Automate/practice_output_file.txt', 'a') as appendfile:
+#         # Writing the replaced data in our text file
+#         appendfile.write("\n\n")
+#         appendfile.write(in_data)
+#         print("Text replaced")    
     
 
-ptms = ["ARG"]
+ptms = ["ARG", "SER"]
 for ptm in ptms:
     obtain_seperate_rtf(ptm)
-    edited_ptm_file = find_atom_connections(ptm)
-    append_to_top_heav_lib(edited_ptm_file, ptm)
+    all_connections = find_atom_connections(ptm)
+    figure_out_atom_type(ptm, all_connections)
+    # append_to_top_heav_lib(edited_ptm_file, ptm)
