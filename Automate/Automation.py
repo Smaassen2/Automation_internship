@@ -6,6 +6,10 @@ def obtain_seperate_rtf(ptm):
     #with open("/home/shahielm/toppar/stream/prot/toppar_all36_prot_modify_res.str", "r") as file:
         part_of_ptm = False
         for line in file:
+            if "!" in line:
+                line = line.split("!", 1)[0]
+                # add the newline back which was removed with the previous command
+                line += "\n"
             if f"RESI {ptm}" in line:
                 part_of_ptm = True
                 info = line
@@ -25,6 +29,7 @@ def obtain_seperate_rtf(ptm):
         edited_output.truncate(edited_output.tell()-2)
     edited_output.close()
     return ptm
+
 
 def find_atom_connections(ptm):
     with open(f"{ptm}.txt", "r") as file:
@@ -54,7 +59,6 @@ def find_atom_connections(ptm):
                             strip_line2 = line2.strip()
                             split_line2 = strip_line2.split()
                             split_line2.pop(0)
-                            #print(split_line2)
                             for x, y in grouped(split_line2, 2):
                                 if not x.startswith("H") and not y.startswith("H"):
                                     if x == atom:
@@ -71,9 +75,7 @@ def find_atom_connections(ptm):
                 
                 remove_spaces = False
                 atom_type_to_be_replaced = line.split()[2]
-                # print(line)
-                # print(len(atom_type_to_be_replaced))
-                # print(len(replacement))
+
                 if len(atom_type_to_be_replaced) > len(replacement):
                     difference = len(atom_type_to_be_replaced) - len(replacement)
                     final_atom_type = replacement + ' ' * difference
@@ -88,7 +90,6 @@ def find_atom_connections(ptm):
                     line = line.replace(atom_type_to_be_replaced + difference * " ", final_atom_type)
                 else:
                     line = line.replace(atom_type_to_be_replaced, final_atom_type)
-                    print(line)
                 
                 
                 with open(f"{ptm}_edited.txt", "r") as file3:
@@ -98,17 +99,21 @@ def find_atom_connections(ptm):
                     index += 1
                     if f"ATOM {atom} " in line3:
                         data[index] = line
+                    if "DOUBLE" in line3:
+                        # print(line)
+                        # print(line3)
+                        data[index] = line3.replace("DOUBLE", "BOND")
+                    if f"ATOM H" in line3:
+                        #removes the hydrogen atom lines
+                        data[index] = ""
                 with open(f"{ptm}_edited.txt", "w") as file4:
                     file4.writelines(data)
-                
-
-                    
-
 
 
 def grouped(iterable, n):
     # iterate each two values (two atoms that have a bond)
     return zip(*[iter(iterable)]*n)
+
 
 def figure_out_atom_type(ptm, connections):
     atom_type_replacement = {
@@ -151,7 +156,8 @@ def figure_out_atom_type(ptm, connections):
     replacement = atom_type_replacement[str_connections]
 
     return replacement
-                    
+
+
 def write_to_top_heav_lib(ptm):
     # Opening our text file in write only mode to write the replaced content
     #with open('/home/shahielm/Automate/top_heav,lib', 'a') as appendfile:

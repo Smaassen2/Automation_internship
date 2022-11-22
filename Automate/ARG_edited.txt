@@ -1,30 +1,17 @@
 RESI ARG          1.00
 GROUP   
-ATOM N    NH1    -0.47  !     |                      HH11
-ATOM HN   H       0.31  !  HN-N                       |
-ATOM CA   CT1     0.07  !     |   HB1 HG1 HD1 HE     NH1-HH12
-ATOM HA   HB1     0.09  !     |   |   |   |   |    //(+)  
-GROUP                   !  HA-CA--CB--CG--CD--NE--CZ
-ATOM CB   CT2    -0.18  !     |   |   |   |         \
-ATOM HB1  HA2     0.09  !     |   HB2 HG2 HD2        NH2-HH22
-ATOM HB2  HA2     0.09  !   O=C                       |
-GROUP                   !     |                      HH21
+ATOM N    NH1    -0.47  
+ATOM CA   CT1     0.07  
+GROUP                   
+ATOM CB   CT2    -0.18  
+GROUP                   
 ATOM CG   CT2    -0.18
-ATOM HG1  HA2     0.09
-ATOM HG2  HA2     0.09
 GROUP   
 ATOM CD   CT2     0.20
-ATOM HD1  HA2     0.09
-ATOM HD2  HA2     0.09
 ATOM NE   NC2    -0.70
-ATOM HE   HC      0.44
 ATOM CZ   C       0.64
 ATOM NH1  NC2    -0.80
-ATOM HH11 HC      0.46
-ATOM HH12 HC      0.46
 ATOM NH2  NC2    -0.80
-ATOM HH21 HC      0.46
-ATOM HH22 HC      0.46
 GROUP   
 ATOM C    C       0.51
 ATOM O    O      -0.51
@@ -33,7 +20,7 @@ BOND NH2 CZ  N  HN  N  CA
 BOND C   CA  C  +N  CA HA  CB HB1   
 BOND CB  HB2 CG  HG1 CG HG2 CD HD1 CD HD2   
 BOND NE  HE  NH1 HH11  NH1 HH12  NH2 HH21  NH2 HH22 
-DOUBLE O  C    CZ  NH1  
+BOND O  C    CZ  NH1  
 IMPR N  -C  CA  HN   C CA +N O   
 IMPR CZ  NH1  NH2  NE
 IMPR NH1 HH11 HH12 CZ
