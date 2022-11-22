@@ -100,14 +100,12 @@ def find_atom_connections(ptm):
                     if f"ATOM {atom} " in line3:
                         data[index] = line
                     if "DOUBLE" in line3:
-                        # print(line)
-                        # print(line3)
                         data[index] = line3.replace("DOUBLE", "BOND")
                     if f"ATOM H" in line3:
                         #removes the hydrogen atom lines
                         data[index] = ""
-                with open(f"{ptm}_edited.txt", "w") as file4:
-                    file4.writelines(data)
+                    with open(f"{ptm}_edited.txt", "w") as file4:
+                        file4.writelines(data)
 
 
 def grouped(iterable, n):
@@ -157,6 +155,38 @@ def figure_out_atom_type(ptm, connections):
 
     return replacement
 
+def remove_hydrogen_from_bonds(ptm):
+    with open(f"{ptm}_edited.txt", "r") as file:
+        data = file.readlines()
+    index = -1
+    for line in data:
+        index += 1
+        if "BOND" in line:
+        # to remove newline characters causing every odd line to be blank (starting from 0)
+            strip_line = line.strip()
+            split_line = strip_line.split()
+            for x, y in grouped(split_line[1:], 2):
+                if x.startswith("H") or y.startswith("H"):
+                    #print(split_line3)
+                    split_line.remove(x)
+                    split_line.remove(y)
+                #print(split_line)
+                print('next')
+                line = (' '.join(split_line))
+                print(line)
+            # If all bonds have been removed, delete the whole row because it not longer provides any information
+            if line == "BOND":
+                del data[index]
+            elif line != "":
+                #print(line)
+                #print(index)
+                data[index] = f"{line}\n"
+    for row in data:
+        print(row)
+
+    # Overwrties the chages made to the BONDS
+    with open(f"{ptm}_edited.txt", "w") as ptm_file:
+        ptm_file.writelines(data)
 
 def write_to_top_heav_lib(ptm):
     # Opening our text file in write only mode to write the replaced content
@@ -178,10 +208,10 @@ def write_to_top_heav_lib(ptm):
             writefile.write(data)
             print("Text replaced")
 
-
-ptms = ["ARG", "TYR", "LYS", "LEU", "GLU"]
-#ptms = ["GLU"]
+# ptms = ["ARG", "TYR", "LYS", "LEU", "GLU"]
+ptms = ["GLU"]
 for ptm in ptms:
     obtain_seperate_rtf(ptm)
     find_atom_connections(ptm)
+    remove_hydrogen_from_bonds(ptm)
     write_to_top_heav_lib(ptm)

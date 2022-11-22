@@ -1,14 +1,14 @@
 RESI GLU         -1.00
 GROUP   
-ATOM N    NH1    -0.47  !     |          
-ATOM HN   H       0.31  !  HN-N          
-ATOM CA   CT1     0.07  !     |   HB1 HG1   OE1
-ATOM HA   HB1     0.09  !     |   |   |    //
-GROUP                   !  HA-CA--CB--CG--CD
-ATOM CB   CT2A   -0.18  !     |   |   |    \
-ATOM HB1  HA2     0.09  !     |   HB2 HG2   OE2(-)
-ATOM HB2  HA2     0.09  !   O=C          
-GROUP                   !     |          
+ATOM N    NH1    -0.47  
+ATOM HN   H       0.31  
+ATOM CA   CT1     0.07  
+ATOM HA   HB1     0.09  
+GROUP                   
+ATOM CB   CT2A   -0.18  
+ATOM HB1  HA2     0.09  
+ATOM HB2  HA2     0.09  
+GROUP                   
 ATOM CG   CT2    -0.28
 ATOM HG1  HA2     0.09
 ATOM HG2  HA2     0.09

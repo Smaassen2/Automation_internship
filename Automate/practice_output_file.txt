@@ -2,31 +2,18 @@
 
 RESI ARG          1.00
 GROUP   
-ATOM N    NH1    -0.47  !     |                      HH11
-ATOM HN   H       0.31  !  HN-N                       |
-ATOM CA   CT1     0.07  !     |   HB1 HG1 HD1 HE     NH1-HH12
-ATOM HA   HB1     0.09  !     |   |   |   |   |    //(+)  
-GROUP                   !  HA-CA--CB--CG--CD--NE--CZ
-ATOM CB   CT2    -0.18  !     |   |   |   |         \
-ATOM HB1  HA2     0.09  !     |   HB2 HG2 HD2        NH2-HH22
-ATOM HB2  HA2     0.09  !   O=C                       |
-GROUP                   !     |                      HH21
+ATOM N    NH1    -0.47  
+ATOM CA   CT1     0.07  
+GROUP                   
+ATOM CB   CT2    -0.18  
+GROUP                   
 ATOM CG   CT2    -0.18
-ATOM HG1  HA2     0.09
-ATOM HG2  HA2     0.09
 GROUP   
 ATOM CD   CT2     0.20
-ATOM HD1  HA2     0.09
-ATOM HD2  HA2     0.09
 ATOM NE   NC2    -0.70
-ATOM HE   HC      0.44
 ATOM CZ   C       0.64
 ATOM NH1  NC2    -0.80
-ATOM HH11 HC      0.46
-ATOM HH12 HC      0.46
 ATOM NH2  NC2    -0.80
-ATOM HH21 HC      0.46
-ATOM HH22 HC      0.46
 GROUP   
 ATOM C    C       0.51
 ATOM O    O      -0.51
@@ -35,7 +22,7 @@ BOND NH2 CZ  N  HN  N  CA
 BOND C   CA  C  +N  CA HA  CB HB1   
 BOND CB  HB2 CG  HG1 CG HG2 CD HD1 CD HD2   
 BOND NE  HE  NH1 HH11  NH1 HH12  NH2 HH21  NH2 HH22 
-DOUBLE O  C    CZ  NH1  
+BOND O  C    CZ  NH1  
 IMPR N  -C  CA  HN   C CA +N O   
 IMPR CZ  NH1  NH2  NE
 IMPR NH1 HH11 HH12 CZ
@@ -75,32 +62,23 @@ IC HH21 CZ   *NH2 HH22  0.9899 119.9100  166.1600 116.8800  0.9914
 
 RESI TYR          0.00
 GROUP   
-ATOM N    NH1    -0.47  !     |        HD1  HE1    
-ATOM HN   H       0.31  !  HN-N         |    |   
-ATOM CA   CT1     0.07  !     |   HB1  CD1--CE1
-ATOM HA   HB1     0.09  !     |   |   //      \\
-GROUP                   !  HA-CA--CB--CG      CZ--OH
-ATOM CB   CT2    -0.18  !     |   |    \  __  /     \
-ATOM HB1  HA2     0.09  !     |   HB2  CD2--CE2     HH
-ATOM HB2  HA2     0.09  !   O=C         |    |  
-GROUP                   !     |        HD2  HE2   
+ATOM N    NH1    -0.47  
+ATOM CA   CT1     0.07  
+GROUP                   
+ATOM CB   CT2    -0.18  
+GROUP                   
 ATOM CG   CA      0.00
 GROUP   
 ATOM CD1  CA     -0.115
-ATOM HD1  HP      0.115
 GROUP   
 ATOM CE1  CA     -0.115
-ATOM HE1  HP      0.115
 GROUP
 ATOM CZ   CA      0.11
 ATOM OH   OH1    -0.54
-ATOM HH   H       0.43
 GROUP
 ATOM CD2  CA     -0.115
-ATOM HD2  HP      0.115
 GROUP
 ATOM CE2  CA     -0.115
-ATOM HE2  HP      0.115
 GROUP   
 ATOM C    C       0.51
 ATOM O    O      -0.51
@@ -109,7 +87,7 @@ BOND CZ  CE2  OH  CZ
 BOND N   HN   N   CA    C   CA   C   +N   
 BOND CA  HA   CB  HB1  CB  HB2  CD1 HD1  CD2 HD2   
 BOND CE1 HE1  CE2 HE2  OH  HH
-DOUBLE   O   C   CD1 CG  CE1  CZ  CE2 CD2      
+BOND   O   C   CD1 CG  CE1  CZ  CE2 CD2      
 IMPR N -C CA HN  C CA +N O   
 CMAP -C  N  CA  C   N  CA  C  +N
 DONOR HN N   
@@ -140,30 +118,17 @@ IC CE1  CZ   OH   HH    1.3978 119.6800  175.4500 107.4700  0.9594
 
 RESI LYS          1.00
 GROUP   
-ATOM N    NH1    -0.47  !     |                   
-ATOM HN   H       0.31  !  HN-N                   
-ATOM CA   CT1     0.07  !     |   HB1 HG1 HD1 HE1    HZ1
-ATOM HA   HB1     0.09  !     |   |   |   |   |     /   
-GROUP                   !  HA-CA--CB--CG--CD--CE--NZ--HZ2
-ATOM CB   CT2    -0.18  !     |   |   |   |   |     \
-ATOM HB1  HA2     0.09  !     |   HB2 HG2 HD2 HE2    HZ3
-ATOM HB2  HA2     0.09  !   O=C                  
-GROUP                   !     |                  
+ATOM N    NH1    -0.47  
+ATOM CA   CT1     0.07  
+GROUP                   
+ATOM CB   CT2    -0.18  
+GROUP                   
 ATOM CG   CT2    -0.18
-ATOM HG1  HA2     0.09
-ATOM HG2  HA2     0.09
 GROUP   
 ATOM CD   CT2    -0.18
-ATOM HD1  HA2     0.09
-ATOM HD2  HA2     0.09
 GROUP   
 ATOM CE   CT2     0.21
-ATOM HE1  HA2     0.05
-ATOM HE2  HA2     0.05
 ATOM NZ   NH3    -0.30
-ATOM HZ1  HC      0.33
-ATOM HZ2  HC      0.33
-ATOM HZ3  HC      0.33
 GROUP   
 ATOM C    C       0.51
 ATOM O    O      -0.51
@@ -171,7 +136,7 @@ BOND CB CA   CG CB   CD CG   CE CD   NZ CE
 BOND N  HN   N  CA    C  CA   
 BOND C  +N   CA HA   CB HB1  CB HB2  CG HG1   
 BOND CG HG2  CD HD1  CD HD2  CE HE1  CE HE2 
-DOUBLE   O  C   
+BOND   O  C   
 BOND NZ HZ1  NZ HZ2  NZ HZ3   
 IMPR N -C CA HN  C CA +N O   
 CMAP -C  N  CA  C   N  CA  C  +N
@@ -205,27 +170,16 @@ IC HZ1  CE   *NZ  HZ3   1.0404 110.0200 -120.1300 109.4000  1.0401
 
 RESI LEU          0.00
 GROUP   
-ATOM N    NH1    -0.47  !     |        HD11 HD12
-ATOM HN   H       0.31  !  HN-N          | /
-ATOM CA   CT1     0.07  !     |   HB1   CD1--HD13
-ATOM HA   HB1     0.09  !     |   |    /
-GROUP                   !  HA-CA--CB--CG-HG
-ATOM CB   CT2    -0.18  !     |   |    \ 
-ATOM HB1  HA2     0.09  !     |   HB2   CD2--HD23
-ATOM HB2  HA2     0.09  !   O=C          | \
-GROUP                   !     |        HD21 HD22
+ATOM N    NH1    -0.47  
+ATOM CA   CT1     0.07  
+GROUP                   
+ATOM CB   CT2    -0.18  
+GROUP                   
 ATOM CG   CT1    -0.09
-ATOM HG   HA1     0.09
 GROUP   
 ATOM CD1  CT3    -0.27
-ATOM HD11 HA3     0.09
-ATOM HD12 HA3     0.09
-ATOM HD13 HA3     0.09
 GROUP   
 ATOM CD2  CT3    -0.27
-ATOM HD21 HA3     0.09
-ATOM HD22 HA3     0.09
-ATOM HD23 HA3     0.09
 GROUP   
 ATOM C    C       0.51
 ATOM O    O      -0.51
@@ -233,7 +187,7 @@ BOND CB  CA   CG  CB   CD1 CG   CD2 CG
 BOND N   HN   N   CA    C   CA   C +N   
 BOND CA  HA   CB  HB1  CB  HB2  CG  HG   CD1 HD11   
 BOND CD1 HD12 CD1 HD13 CD2 HD21 CD2 HD22 CD2 HD23
-DOUBLE   O   C
+BOND   O   C
 IMPR N -C CA HN  C CA +N O   
 CMAP -C  N  CA  C   N  CA  C  +N
 DONOR HN N   
@@ -260,18 +214,12 @@ IC HD21 CG   *CD2 HD23  1.1116 110.3200 -119.6100 110.4900  1.1115
 
 RESI GLU         -1.00
 GROUP   
-ATOM N    NH1    -0.47  !     |          
-ATOM HN   H       0.31  !  HN-N          
-ATOM CA   CT1     0.07  !     |   HB1 HG1   OE1
-ATOM HA   HB1     0.09  !     |   |   |    //
-GROUP                   !  HA-CA--CB--CG--CD
-ATOM CB   CT2    -0.18  !     |   |   |    \
-ATOM HB1  HA2     0.09  !     |   HB2 HG2   OE2(-)
-ATOM HB2  HA2     0.09  !   O=C          
-GROUP                   !     |          
+ATOM N    NH1    -0.47  
+ATOM CA   CT1     0.07  
+GROUP                   
+ATOM CB   CT2    -0.18  
+GROUP                   
 ATOM CG   CT2    -0.28
-ATOM HG1  HA2     0.09
-ATOM HG2  HA2     0.09
 ATOM CD   CC      0.62
 ATOM OE1  OC     -0.76
 ATOM OE2  OC     -0.76
@@ -282,7 +230,48 @@ BOND CB CA  CG CB  CD CG  OE2 CD
 BOND N  HN  N  CA C   CA   
 BOND C  +N  CA HA  CB HB1 CB  HB2 CG  HG1   
 BOND CG HG2  
-DOUBLE O  C   CD  OE1 
+BOND O  C   CD  OE1 
+IMPR N   -C CA  HN  C CA +N O   
+IMPR CD CG OE2 OE1
+CMAP -C  N  CA  C   N  CA  C  +N
+DONOR HN N   
+ACCEPTOR OE1 CD   
+ACCEPTOR OE2 CD   
+ACCEPTOR O C   
+IC -C   CA   *N   HN    1.3471 124.4500  180.0000 113.9900  0.9961
+IC -C   N    CA   C     1.3471 124.4500  180.0000 107.2700  1.5216
+IC N    CA   C    +N    1.4512 107.2700  180.0000 117.2500  1.3501
+IC +N   CA   *C   O     1.3501 117.2500  180.0000 121.0700  1.2306
+IC CA   C    +N   +CA   1.5216 117.2500  180.0000 124.3000  1.4530
+IC N    C    *CA  CB    1.4512 107.2700  121.9000 111.7100  1.5516
+IC N    C    *CA  HA    1.4512 107.2700 -118.0600 107.2600  1.0828
+IC N    CA   CB   CG    1.4512 111.0400  180.0000 115.6900  1.5557
+IC CG   CA   *CB  HB1   1.5557 115.6900  121.2200 108.1600  1.1145
+IC CG   CA   *CB  HB2   1.5557 115.6900 -123.6500 109.8100  1.1131
+IC CA   CB   CG   CD    1.5516 115.6900  180.0000 115.7300  1.5307
+IC CD   CB   *CG  HG1   1.5307 115.7300  117.3800 109.5000  1.1053
+IC CD   CB   *CG  HG2   1.5307 115.7300 -121.9600 111.0000  1.1081
+IC CB   CG   CD   OE1   1.5557 115.7300  180.0000 114.9900  1.2590
+IC OE1  CG   *CD  OE2   1.2590 114.9900 -179.1000 120.0800  1.2532
+
+RESI GLU         -1.00
+GROUP   
+ATOM N    NH1    -0.47  
+ATOM CA   CT1     0.07  
+GROUP                   
+ATOM CB   CT2    -0.18  
+GROUP                   
+ATOM CG   CT2    -0.28
+ATOM CD   CC      0.62
+ATOM OE1  OC     -0.76
+ATOM OE2  OC     -0.76
+GROUP   
+ATOM C    C       0.51
+ATOM O    O      -0.51
+BOND CB CA CG CB CD CG OE2 CD
+BOND N CA C CA
+BOND C +N
+BOND O  C   CD  OE1 
 IMPR N   -C CA  HN  C CA +N O   
 IMPR CD CG OE2 OE1
 CMAP -C  N  CA  C   N  CA  C  +N
